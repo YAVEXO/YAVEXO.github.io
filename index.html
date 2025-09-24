@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YAVEXO</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      background-color: #ffffff;
+      padding: 15px 30px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 30px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .description {
+      margin-bottom: 20px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .social-buttons {
+      margin: 20px 0 40px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .social-buttons a {
+      padding: 10px 25px;
+      text-decoration: none;
+      color: white;
+      background-color: #E1306C;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .social-buttons a.whatsapp {
+      background-color: #25D366;
+    }
+
+    .social-buttons a:hover {
+      opacity: 0.9;
+    }
+
+    .image-container {
+      position: relative;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .main-image {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+    }
+
+    .image-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 10px;
+      margin-bottom: 30px;
+    }
+
+    .image-controls button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .image-controls button:hover {
+      background-color: #0056b3;
+    }
+
+    .page-indicator {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img class="logo" src="logo.png" alt="YAVEXO Logo" />
+    <div class="title">YAVEXO</div>
+  </header>
+
+  <div class="content">
+    <div class="description">
+      <strong>Tarzın, senin imzan.</strong><br><br>
+
+      YAVEXO, her yaşa ve her tarza hitap eden modern çizgileriyle; stilini ifade etmekten çekinmeyen, özgünlüğü seven herkes için burada. <br><br>
+      Günlük hayatın konforundan, ofis şıklığına kadar her ana uyum sağlayan özel üretim tasarımlar sunuyoruz.<br><br>
+
+      Her parçada işçilik, kalite ve özgünlük ilkelerini benimseyerek; <br><br>
+
+      👕 Kişiye özel baskı ve nakışlarla seni yansıtan detaylar, <br>
+      🧵 Özel tasarımlarla göz alıcı kombinler, <br>
+      👗 Hem rahat hem şık parçalarla her ortama uyum sağlayan stiller yaratıyoruz. <br><br>
+
+      YAVEXO, sadece giydiğin bir marka değil; seninle bütünleşen, tarzını anlatan bir deneyimdir. <br>
+      Fark yaratmak senin elinde. Hemen bizimle iletişime geç!
+    </div>
+
+    <div class="social-buttons">
+      <a href="https://www.instagram.com/velora_giyim_?igsh=MWpkd3Ezd3AxdGo5cg==" target="_blank">Instagram</a>
+      <a class="whatsapp" href="https://wa.me/905342401859" target="_blank">WhatsApp</a>
+    </div>
+
+    <div class="image-container">
+      <img class="main-image" src="resim/resim1.jpg" alt="Görsel">
+    </div>
+
+    <div class="image-controls">
+      <button onclick="prevImage()">◀</button>
+      <div class="page-indicator">1 / 1</div>
+      <button onclick="nextImage()">▶</button>
+    </div>
+  </div>
+
+  <script>
+    // Klasördeki toplam resim sayısını yaz (eklediğinde artır)
+    const totalImages = 5; // örnek: resim1.jpg → resim5.jpg
+
+    let currentIndex = 1;
+
+    function updateImage() {
+      document.querySelector(".main-image").src = `resim/Resim${currentIndex}.png`;
+      document.querySelector(".page-indicator").innerText = `${currentIndex} / ${totalImages}`;
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 2 + totalImages) % totalImages + 1;
+      updateImage();
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex % totalImages) + 1;
+      updateImage();
+    }
+
+    window.onload = updateImage;
+  </script>
+
+</body>
+</html>
