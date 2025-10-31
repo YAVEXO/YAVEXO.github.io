@@ -1,182 +1,307 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YAVEXO</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      color: #333;
+<!DOCTYPE html>  
+<html lang="tr">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+  <title>YAVEXO</title>  
+  <style>  
+    body {  
+      margin: 0;  
+      font-family: Arial, sans-serif;  
+      background-color: #f5f5f5;  
+      color: #333;  
+    }  
+
+    header {  
+      display: flex;  
+      align-items: center;  
+      background-color: #ffffff;  
+      padding: 15px 30px;  
+      border-bottom: 1px solid #ddd;  
+    }  
+
+    .logo {  
+      width: 50px;  
+      height: 50px;  
+      object-fit: cover;  
+      border-radius: 50%;  
+      margin-right: 20px;  
+    }  
+
+    .title {  
+      font-size: 32px;  
+      font-weight: bold;  
+    }  
+
+    .content {  
+      padding: 30px;  
+      max-width: 800px;  
+      margin: 0 auto;  
+    }  
+
+    .description {  
+      margin-bottom: 20px;  
+      font-size: 18px;  
+      line-height: 1.6;  
+    }  
+
+    .social-buttons {  
+      margin: 20px 0 40px 0;  
+      display: flex;  
+      justify-content: center;  
+      gap: 20px;  
+    }  
+
+    .social-buttons a {  
+      padding: 10px 25px;  
+      text-decoration: none;  
+      color: white;  
+      background-color: #E1306C;  
+      border-radius: 5px;  
+      font-weight: bold;  
+      transition: background-color 0.3s;  
+    }  
+
+    .social-buttons a.whatsapp {  
+      background-color: #25D366;  
+    }  
+
+    .social-buttons a:hover {  
+      opacity: 0.9;  
+    }  
+
+    .image-container {  
+      position: relative;  
+      text-align: center;  
+      margin-bottom: 15px;  
+    }  
+
+    .main-image {  
+      width: 100%;  
+      max-width: 100%;  
+      height: auto;  
+      background-color: #f5f5f5;  
+      border-radius: 8px;  
+    }  
+
+    .image-controls {  
+      display: flex;  
+      justify-content: center;  
+      align-items: center;  
+      gap: 15px;  
+      margin-top: 10px;  
+      margin-bottom: 20px;  
+    }  
+
+    .image-controls button {  
+      padding: 10px 20px;  
+      font-size: 16px;  
+      cursor: pointer;  
+      border: none;  
+      background-color: #007BFF;  
+      color: white;  
+      border-radius: 5px;  
+      transition: background-color 0.3s;  
+    }  
+
+    .image-controls button:hover {  
+      background-color: #0056b3;  
+    }  
+
+    .page-indicator {  
+      font-size: 16px;  
     }
 
-    header {
-      display: flex;
-      align-items: center;
-      background-color: #ffffff;
-      padding: 15px 30px;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .logo {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-right: 20px;
-    }
-
-    .title {
-      font-size: 32px;
-      font-weight: bold;
-    }
-
-    .content {
-      padding: 30px;
-      max-width: 800px;
+    .signature-button {
+      display: block;
       margin: 0 auto;
-    }
-
-    .description {
-      margin-bottom: 20px;
+      padding: 12px 30px;
       font-size: 18px;
-      line-height: 1.6;
-    }
-
-    .social-buttons {
-      margin: 20px 0 40px 0;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .social-buttons a {
-      padding: 10px 25px;
-      text-decoration: none;
-      color: white;
-      background-color: #E1306C;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    .social-buttons a.whatsapp {
-      background-color: #25D366;
-    }
-
-    .social-buttons a:hover {
-      opacity: 0.9;
-    }
-
-    .image-container {
-      position: relative;
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    .main-image {
-      width: 100%;
-      max-width: 100%;
-      height: auto;
-      background-color: #f5f5f5;
-      border-radius: 8px;
-    }
-
-    .image-controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      margin-top: 10px;
-      margin-bottom: 30px;
-    }
-
-    .image-controls button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
       background-color: #007BFF;
       color: white;
-      border-radius: 5px;
-      transition: background-color 0.3s;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
     }
 
-    .image-controls button:hover {
+    .signature-button:hover {
       background-color: #0056b3;
+      transform: scale(1.05);
     }
 
-    .page-indicator {
-      font-size: 16px;
+    /* Kompakt imza sayfası */
+    .signature-page {
+      display: none;
+      background-color: white;
+      padding: 20px; /* Kısaltıldı */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 400px; /* Kısaltıldı */
+      margin: 20px auto; /* Kısaltıldı */
     }
-  </style>
-</head>
-<body>
 
-  <header>
-    <img class="logo" src="logo.jpg" alt="YAVEXO Logo" />
-    <div class="title">YAVEXO</div>
-  </header>
+    .options-title {
+      font-weight: bold;
+      color: #007BFF;
+      cursor: pointer;
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-  <div class="content">
-    <div class="description">
-      <strong>Tarzın, senin imzan.</strong><br><br>
+    .options-list {
+      display: none;
+      max-height: 150px; /* Kısaltıldı */
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 8px; /* Kısaltıldı */
+      background-color: #fafafa;
+    }
 
-      YAVEXO, her yaşa ve her tarza hitap eden modern çizgileriyle; stilini ifade etmekten çekinmeyen, özgünlüğü seven herkes için burada. <br><br>
-      Günlük hayatın konforundan, ofis şıklığına kadar her ana uyum sağlayan özel üretim tasarımlar sunuyoruz.<br><br>
+    .category {
+      font-weight: bold;
+      margin-top: 10px;
+      color: #444;
+      border-bottom: 1px solid #ccc;
+    }
 
-      Her parçada işçilik, kalite ve özgünlük ilkelerini benimseyerek; <br><br>
+    .options-list div {
+      padding: 8px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
 
-      👕 Kişiye özel baskı ve nakışlarla seni yansıtan detaylar, <br>
-      🧵 Özel tasarımlarla göz alıcı kombinler, <br>
-      👗 Hem rahat hem şık parçalarla her ortama uyum sağlayan stiller yaratıyoruz. <br><br>
+    .options-list div:hover {
+      background-color: #e9f0ff;
+    }
+  </style>  
+</head>  
+<body>  
+  <header>  
+    <img class="logo" src="logo.png" alt="YAVEXO Logo" />  
+    <div class="title">YAVEXO</div>  
+  </header>  
 
-      YAVEXO, sadece giydiğin bir marka değil; seninle bütünleşen, tarzını anlatan bir deneyimdir. <br>
-      Fark yaratmak senin elinde. Hemen bizimle iletişime geç!
+  <div class="content">  
+    <div class="description">  
+      <strong>Tarzın, senin imzan.</strong><br><br>  
+      YAVEXO, her yaşa ve her tarza hitap eden modern çizgileriyle; stilini ifade etmekten çekinmeyen, özgünlüğü seven herkes için burada. <br><br>  
+      Günlük hayatın konforundan, ofis şıklığına kadar her ana uyum sağlayan özel üretim tasarımlar sunuyoruz.<br><br>  
+      Her parçada işçilik, kalite ve özgünlük ilkelerini benimseyerek; <br><br>  
+      👕 Kişiye özel baskı ve nakışlarla seni yansıtan detaylar, <br>  
+      🧵 Özel tasarımlarla göz alıcı kombinler, <br>  
+      👗 Hem rahat hem şık parçalarla her ortama uyum sağlayan stiller yaratıyoruz. <br><br>  
+      YAVEXO, sadece giydiğin bir marka değil; seninle bütünleşen, tarzını anlatan bir deneyimdir. <br>  
+      Fark yaratmak senin elinde. Hemen bizimle iletişime geç!  
+    </div>  
+
+    <div class="social-buttons">  
+      <a href="https://www.instagram.com/yavaxo.giyim42?igsh=MTI3enU0MHdtaHRvdQ==" target="_blank">Instagram</a>  
+      <a class="whatsapp" href="https://wa.me/905342401859" target="_blank">WhatsApp</a>  
+    </div>  
+
+    <div class="image-container">  
+      <img class="main-image" src="resim1.png" alt="Görsel">  
+    </div>  
+
+    <div class="image-controls">  
+      <button onclick="prevImage()">◀</button>  
+      <div class="page-indicator">1 / 4</div>  
+      <button onclick="nextImage()">▶</button>  
     </div>
 
-    <div class="social-buttons">
-      <a href="https://www.instagram.com/velora_giyim_?igsh=MWpkd3Ezd3AxdGo5cg==" target="_blank">Instagram</a>
-      <a class="whatsapp" href="https://wa.me/905342401859" target="_blank">WhatsApp</a>
+    <!-- İmza butonu -->
+    <button class="signature-button" onclick="openSignaturePage()">✍️İMZANI AT ✍️</button>
+
+    <!-- İmza sayfası -->
+    <div class="signature-page" id="signaturePage">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0;">Giysi Seçimi</h2>
+        <span onclick="showInfo()" 
+              style="cursor: pointer; font-size: 20px; color: #007BFF;" 
+              title="Bilgi">ℹ️</span>
+      </div>
+
+      <div class="options-title" onclick="toggleOptions()">Seçenekler ▼</div>
+      <div class="options-list" id="optionsList">
+        <div class="category">👕 Tişörtler</div>
+        <div>Tişört (Kısa Kollu)</div>
+        <div>Tişört (Uzun Kollu)</div>
+        <div>Polo Yaka Tişört</div>
+        <div>Baskılı Tişört</div>
+
+        <div class="category">👖 Pantolonlar</div>
+        <div>Pantolon (Klasik)</div>
+        <div>İş Pantolonu</div>
+        <div>Eşofman Altı</div>
+
+        <div class="category">🧥 Dış Giyim</div>
+        <div>Kışlık Sweatshirt</div>
+        <div>Kapüşonlu Sweatshirt</div>
+
+        <div class="category">🩳 Yazlık Giyim</div>
+        <div>Kapri</div>
+        <div>Spor Takımı</div>
+
+        <div class="category">👩‍💼 Ofis & Özel</div>
+        <div>Etek</div>
+        <div>Elbise</div>
+      </div>
     </div>
+  </div>  
 
-    <div class="image-container">
-      <img class="main-image" src="resim/resim1.jpg" alt="Görsel">
-    </div>
+  <script>  
+    const images = ["resim1.png", "resim2.png", "resim3.png", "resim4.png"];  
+    let currentIndex = 0;  
+  
+    function updateImage() {  
+      document.querySelector(".main-image").src = images[currentIndex];  
+      document.querySelector(".page-indicator").innerText = `${currentIndex + 1} / ${images.length}`;  
+    }  
+  
+    function prevImage() {  
+      currentIndex = (currentIndex - 1 + images.length) % images.length;  
+      updateImage();  
+    }  
+  
+    function nextImage() {  
+      currentIndex = (currentIndex + 1) % images.length;  
+      updateImage();  
+    }  
 
-    <div class="image-controls">
-      <button onclick="prevImage()">◀</button>
-      <div class="page-indicator">1 / 1</div>
-      <button onclick="nextImage()">▶</button>
-    </div>
-  </div>
-
-  <script>
-    // Klasördeki toplam resim sayısını yaz (eklediğinde artır)
-    const totalImages = 1; // örnek: resim1.jpg → resim5.jpg
-
-    let currentIndex = 1;
-
-    function updateImage() {
-      document.querySelector(".main-image").src = `resim/Resim${currentIndex}.png`;
-      document.querySelector(".page-indicator").innerText = `${currentIndex} / ${totalImages}`;
+    function openSignaturePage() {
+      document.getElementById("signaturePage").style.display = "block";
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
     }
 
-    function prevImage() {
-      currentIndex = (currentIndex - 2 + totalImages) % totalImages + 1;
-      updateImage();
+    function toggleOptions() {
+      const list = document.getElementById("optionsList");
+      list.style.display = list.style.display === "block" ? "none" : "block";
     }
 
-    function nextImage() {
-      currentIndex = (currentIndex % totalImages) + 1;
-      updateImage();
+    function showInfo() {
+      const message = document.createElement("div");
+      message.innerText = "💬 İstenilen ürünü WhatsApp veya instagram üzerinden bildirerek sipariş edebilirsiniz.";
+      message.style.position = "fixed";
+      message.style.top = "20px";
+      message.style.right = "20px";
+      message.style.backgroundColor = "#007BFF";
+      message.style.color = "white";
+      message.style.padding = "12px 20px";
+      message.style.borderRadius = "8px";
+      message.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
+      message.style.zIndex = "9999";
+      message.style.fontSize = "16px";
+      message.style.transition = "opacity 0.5s";
+      
+      document.body.appendChild(message);
+
+      setTimeout(() => {
+        message.style.opacity = "0";
+        setTimeout(() => message.remove(), 500);
+      }, 2500);
     }
-
-    window.onload = updateImage;
-  </script>
-
-</body>
+  </script>  
+</body>  
 </html>
-
