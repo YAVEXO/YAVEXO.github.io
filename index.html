@@ -1,548 +1,640 @@
+
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YAVEXO</title>
-  <style>
-    /* ---------- GENEL TASARIM ---------- */
-    body {
-      margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background: linear-gradient(135deg, #0e0e0e, #1a1a1a);
-      color: #e8e8e8;
-      overflow-x: hidden;
-    }
-
-    /* ---------- ÜST BÖLÜM ---------- */
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(90deg, #000, #2b2b2b);
-      padding: 20px 40px;
-      border-bottom: 2px solid #c5a349;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.6);
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 20px;
-      border: 2px solid #c5a349;
-    }
-
-    .title {
-      font-size: 34px;
-      font-weight: 700;
-      color: #f5d67b;
-      letter-spacing: 1px;
-      text-shadow: 0 0 10px rgba(245, 214, 123, 0.6);
-    }
-
-    /* ---------- DİL SEÇENEKLERİ ---------- */
-    .language-selector {
-      position: relative;
-      display: inline-block;
-    }
-
-    #language-toggle {
-      padding: 3px 10px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #e8e8e8;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 10px;
-      font-weight: 600;
-      min-width: 9px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #language-toggle:hover {
-      background: rgba(245, 214, 123, 0.2);
-    }
-
-    #language-toggle::after {
-      content: " ▾";
-      font-size: 15px;
-      margin-left: 5px;
-    }
-
-    #language-options {
-      display: none;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: rgba(30, 30, 30, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 5px;
-      min-width: 140px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-    }
-
-    #language-options.show {
-      display: block;
-    }
-
-    .lang-btn {
-      display: block;
-      width: 100%;
-      padding: 12px 15px;
-      background: transparent;
-      border: none;
-      color: #e8e8e8;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .lang-btn:last-child {
-      border-bottom: none;
-    }
-
-    .lang-btn:hover {
-      background: rgba(245, 214, 123, 0.2);
-    }
-
-    .lang-btn.active {
-      background: linear-gradient(90deg, #c5a349, #e4c370);
-      color: #000;
-      font-weight: bold;
-    }
-
-    /* ---------- ANA İÇERİK ---------- */
-    .content {
-      padding: 40px 25px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .description {
-      font-size: 15px;
-      line-height: 1.8;
-      margin-bottom: 25px;
-      text-align: justify;
-      color: #f0f0f0;
-      background: rgba(255,255,255,0.03);
-      border-left: 4px solid #c5a349;
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    /* ---------- SOSYAL BUTONLAR ---------- */
-    .social-buttons {
-      margin: 30px 0 50px 0;
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-    }
-
-    .social-buttons a {
-      padding: 12px 28px;
-      text-decoration: none;
-      color: white;
-      background: linear-gradient(90deg, #c5a349, #e4c370);
-      border-radius: 6px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: all 0.3s;
-      box-shadow: 0 4px 10px rgba(197,163,73,0.4);
-    }
-
-    .social-buttons a.whatsapp {
-      background: linear-gradient(90deg, #25D366, #128C7E);
-      box-shadow: 0 4px 10px rgba(18,140,126,0.4);
-    }
-
-    .social-buttons a:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255,255,255,0.3);
-    }
-
-    /* ---------- GÖRSEL BÖLÜM ---------- */
-    .image-container {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .main-image {
-      width: 100%;
-      max-width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-      transition: transform 0.4s;
-    }
-
-    .main-image:hover {
-      transform: scale(1.02);
-    }
-
-    .image-controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      margin-top: 15px;
-      margin-bottom: 30px;
-    }
-
-    .image-controls button {
-      padding: 10px 25px;
-      font-size: 18px;
-      cursor: pointer;
-      border: none;
-      background: linear-gradient(90deg, #c5a349, #e4c370);
-      color: #000;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .image-controls button:hover {
-      background: linear-gradient(90deg, #e4c370, #f0d48a);
-      transform: scale(1.05);
-    }
-
-    .page-indicator {
-      font-size: 17px;
-      color: #f5d67b;
-    }
-
-    /* ---------- İMZA BUTONU ---------- */
-    .signature-button {
-      display: block;
-      margin: 0 auto;
-      padding: 14px 40px;
-      font-size: 20px;
-      background: linear-gradient(90deg, #c5a349, #e4c370);
-      color: black;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      box-shadow: 0 4px 15px rgba(197,163,73,0.5);
-      transition: all 0.4s;
-    }
-
-    .signature-button:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 25px rgba(245, 214, 123, 0.8);
-    }
-
-    /* ---------- İMZA SAYFASI ---------- */
-    .signature-page {
-      display: none;
-      background: rgba(255,255,255,0.05);
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 0 25px rgba(255,255,255,0.08);
-      max-width: 450px;
-      margin: 30px auto;
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .options-title {
-      font-weight: bold;
-      color: #f5d67b;
-      cursor: pointer;
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .options-list {
-      display: none;
-      max-height: 180px;
-      overflow-y: auto;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 8px;
-      padding: 10px;
-      background: rgba(0,0,0,0.4);
-      box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
-    }
-
-    .category {
-      font-weight: bold;
-      margin-top: 10px;
-      color: #f5d67b;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .options-list div {
-      padding: 8px;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      transition: background 0.3s;
-    }
-
-    .options-list div:hover {
-      background-color: rgba(245,214,123,0.1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAVEXO - Özel Tasarım Ürünler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Stili */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+        }
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .brand-name {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a2e;
+            letter-spacing: 1px;
+        }
+        
+        .header-line {
+            height: 2px;
+            background: linear-gradient(to right, #3a86ff, #8338ec);
+            margin-bottom: 5px;
+        }
+        
+        /* İletişim Butonları */
+        .contact-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .contact-btn {
+            background-color: #f8f9fa;
+            border: 2px solid #3a86ff;
+            color: #3a86ff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .contact-btn:hover {
+            background-color: #3a86ff;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
+        }
+        
+        /* Resim Galerisi */
+        .gallery-section {
+            padding: 40px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .gallery-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .gallery-slide {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .gallery-slide.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .slide-img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gallery-nav {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            padding: 0 10px;
+        }
+        
+        .nav-btn {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background-color: #3a86ff;
+            color: white;
+        }
+        
+        .slide-counter {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .gallery-line {
+            height: 2px;
+            background: linear-gradient(to right, #3a86ff, #8338ec);
+            margin: 30px auto;
+            max-width: 900px;
+        }
+        
+        /* Sipariş Alanı */
+        .order-section {
+            padding: 40px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a1a2e;
+            font-size: 28px;
+        }
+        
+        .order-form {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .option-group {
+            margin-bottom: 30px;
+        }
+        
+        .option-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #3a86ff;
+            font-weight: 600;
+        }
+        
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .color-option {
+            padding: 8px 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .color-option:hover {
+            border-color: #3a86ff;
+            background-color: rgba(58, 134, 255, 0.05);
+        }
+        
+        .color-option.selected {
+            border-color: #3a86ff;
+            background-color: #3a86ff;
+            color: white;
+        }
+        
+        .print-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .print-option {
+            flex: 1;
+            min-width: 150px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .print-option:hover {
+            border-color: #3a86ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .print-option.selected {
+            border-color: #3a86ff;
+            background-color: rgba(58, 134, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.2);
+        }
+        
+        .print-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+        }
+        
+        .print-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        /* Kaymalı Ekran (Detaylar) */
+        .details-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        
+        .details-panel.open {
+            max-height: 300px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .details-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #1a1a2e;
+        }
+        
+        .selected-options {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .selected-option {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 200px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .option-label {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+        
+        .option-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3a86ff;
+        }
+        
+        /* Sipariş Butonu */
+        .order-btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .order-btn {
+            background: linear-gradient(to right, #3a86ff, #8338ec);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 20px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(58, 134, 255, 0.3);
+        }
+        
+        .order-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(58, 134, 255, 0.4);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #1a1a2e;
+            color: #aaa;
+            margin-top: 40px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0.7; }
+            to { opacity: 1; }
+        }
+        
+        /* Responsive Tasarım */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .brand-name {
+                font-size: 24px;
+            }
+            
+            .contact-btn span {
+                display: inline-block;
+            }
+            
+            .contact-btn {
+                padding: 12px 20px;
+            }
+            
+            .slide-img {
+                max-height: 300px;
+            }
+            
+            .color-options, .print-options {
+                justify-content: center;
+            }
+            
+            .print-option {
+                min-width: 120px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <img class="logo" src="logo.png" alt="YAVEXO Logo" />
-      <div class="title">YAVEXO</div>
+    <!-- Header ve Logo -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo-area">
+                    <div class="logo-img">
+                        <img src="logo.png" alt="YAVEXO Logo">
+                    </div>
+                    <div class="brand-name">YAVEXO</div>
+                </div>
+                
+                <div class="contact-buttons">
+                    <a href="https://wa.me/905342401859" target="_blank" class="contact-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="https://www.instagram.com/yavaxo.giyim42?igsh=MTI3enU0MHdtaHRvdQ==" target="_blank" class="contact-btn">
+                        <i class="fab fa-instagram"></i>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+            <div class="header-line"></div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Resim Galerisi -->
+        <section class="gallery-section">
+            <div class="gallery-container">
+                <div class="gallery-slide active">
+                    <img src="Hazırbaskı1.jpg" alt="Ürün 1" class="slide-img">
+                </div>
+                <div class="gallery-slide">
+                    <img src="Yazılıbaskı1.jpg" alt="Ürün 2" class="slide-img">
+                </div>
+                <div class="gallery-slide">
+                    <img src="Takımbaskı1.jpg" alt="Ürün 3" class="slide-img">
+                </div>
+                <div class="gallery-slide">
+                    <img src="Özelbaskı1.jpg" alt="Ürün 4" class="slide-img">
+                </div>
+                
+                <div class="gallery-nav">
+                    <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                
+                <div class="slide-counter">1 / 4</div>
+            </div>
+            
+            <div class="gallery-line"></div>
+        </section>
+        
+        <!-- Sipariş Alanı -->
+        <section class="order-section">
+            <h2 class="section-title">Sipariş Oluştur</h2>
+            
+            <div class="order-form">
+                <!-- Renk Seçenekleri -->
+                <div class="option-group">
+                    <h3 class="option-title">Renk Seçenekleri</h3>
+                    <div class="color-options">
+                        <div class="color-option" data-color="Kırmızı">Kırmızı</div>
+                        <div class="color-option" data-color="Mavi">Mavi</div>
+                        <div class="color-option" data-color="Krem">Krem</div>
+                        <div class="color-option" data-color="Pembe">Pembe</div>
+                        <div class="color-option" data-color="Mor">Mor</div>
+                        <div class="color-option" data-color="Açık Mavi">Açık Mavi</div>
+                        <div class="color-option selected" data-color="Siyah">Siyah</div>
+                        <div class="color-option" data-color="Beyaz">Beyaz</div>
+                        <div class="color-option" data-color="Gri">Gri</div>
+                        <div class="color-option" data-color="Kahverengi">Kahverengi</div>
+                        <div class="color-option" data-color="Yeşil">Yeşil</div>
+                        <div class="color-option" data-color="Açık Yeşil">Açık Yeşil</div>
+                        <div class="color-option" data-color="Turuncu">Turuncu</div>
+                        <div class="color-option" data-color="Sarı">Sarı</div>
+                    </div>
+                </div>
+                
+                <!-- Baskı Seçenekleri -->
+                <div class="option-group">
+                    <h3 class="option-title">Baskı Seçenekleri</h3>
+                    <div class="print-options">
+                        <div class="print-option" data-print="Standart Baskı">
+                            <img src="Hazırbaskı1.jpg" alt="Standart Baskı" class="print-img">
+                            <div class="print-name">3D baskı</div>
+                            <div class="print-desc">hazır baskı</div>
+                        </div>
+                        <div class="print-option selected" data-print="Yüksek Çözünürlüklü">
+                            <img src="Yazılıbaskı1.jpg" alt="Yüksek Çözünürlüklü" class="print-img">
+                            <div class="print-name">3D baskı</div>
+                            <div class="print-desc">kelime yazma</div>
+                        </div>
+                        <div class="print-option" data-print="3D Baskı">
+                            <img src="Takımbaskı1.jpg" alt="3D Baskı" class="print-img">
+                            <div class="print-name">3D Baskı</div>
+                            <div class="print-desc">takım baskıları</div>
+                        </div>
+                        <div class="print-option" data-print="3D Baskı">
+                            <img src="Özelbaskı1.jpg" alt="3D Baskı" class="print-img">
+                            <div class="print-name">3D Baskı</div>
+                            <div class="print-desc">özel baskı</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Detaylar Paneli -->
+                <div class="details-panel" id="detailsPanel">
+                    <h3 class="details-title">Seçilen Özellikler</h3>
+                    <div class="selected-options">
+                        <div class="selected-option">
+                            <div class="option-label">Seçilen Renk:</div>
+                            <div class="option-value" id="selectedColor">Siyah</div>
+                        </div>
+                        <div class="selected-option">
+                            <div class="option-label">Seçilen Baskı:</div>
+                            <div class="option-value" id="selectedPrint">Yüksek Çözünürlüklü</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sipariş Tamamlama Butonu -->
+                <div class="order-btn-container">
+                    <button class="order-btn" id="completeOrder">Siparişi Tamamla</button>
+                </div>
+            </div>
+        </section>
     </div>
     
-    <div class="language-selector">
-      <button id="language-toggle">DİL </button>
-      <div id="language-options">
-        <button class="lang-btn active" data-lang="tr">Türkçe</button>
-        <button class="lang-btn" data-lang="en">English</button>
-        <button class="lang-btn" data-lang="ru">Русский</button>
-        <button class="lang-btn" data-lang="fr">Français</button>
-      </div>
-    </div>
-  </header>
+    <footer>
+        <p>04/12/2025 YAVEXO tarzın senin imzan</p>
+    </footer>
 
-  <div class="content">
-    <div class="description" id="description">
-      <strong>TARZIN SENİN İMZAN.</strong><br><br>
-      YAVEXO, her yaşa ve her tarza hitap eden modern çizgileriyle; stilini ifade etmekten çekinmeyen, özgünlüğü seven herkes için burada.<br>
-      Günlük hayatın konforundan, ofis şıklığına kadar her ana uyum sağlayan özel üretim tasarımlar sunuyoruz.<br>
-      Her parçada işçilik, kalite ve özgünlük ilkelerini benimseyerek;<br><br>
-      👕 Kişiye özel baskı ve nakışlarla seni yansıtan detaylar,<br>
-      🧵 Özel tasarımlarla göz alıcı kombinler,<br>
-      👗 Hem rahat hem şık parçalarla her ortama uyum sağlayan stiller yaratıyoruz.<br><br>
-      YAVEXO, sadece giydiğin bir marka değil; seninle bütünleşen, tarzını anlatan bir deneyimdir.<br>
-      Fark yaratmak senin elinde. Hemen bizimle iletişime geç!
-    </div>
-
-    <div class="social-buttons">
-      <a href="https://www.instagram.com/yavaxo.giyim42?igsh=MTI3enU0MHdtaHRvdQ==" target="_blank">Instagram</a>
-      <a class="whatsapp" href="https://wa.me/905342401859" target="_blank">WhatsApp</a>
-    </div>
-
-    <div class="image-container">
-      <img class="main-image" src="resim1.png" alt="Görsel">
-    </div>
-
-    <div class="image-controls">
-      <button onclick="prevImage()">◀</button>
-      <div class="page-indicator">1 / 4</div>
-      <button onclick="nextImage()">▶</button>
-    </div>
-
-    <button class="signature-button" id="signatureButton">✍️ İMZANI AT ✍️</button>
-
-    <div class="signature-page" id="signaturePage">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="margin: 0; color: #f5d67b;" id="clothingSelection">Giysi Seçimi</h2>
-        <span onclick="showInfo()" 
-              style="cursor: pointer; font-size: 20px; color: #f5d67b;" 
-              title="Bilgi">ℹ️</span>
-      </div>
-
-      <div class="options-title" onclick="toggleOptions()" id="optionsTitle">Seçenekler ▼</div>
-      <div class="options-list" id="optionsList">
-        <div class="category">👕 Tişörtler</div>
-        <div>Tişört (Kısa Kollu)</div>
-        <div>Tişört (Uzun Kollu)</div>
-        <div>Polo Yaka Tişört</div>
-        <div>Baskılı Tişört</div>
-
-        <div class="category">👖 Pantolonlar</div>
-        <div>Pantolon (Klasik)</div>
-        <div>İş Pantolonu</div>
-        <div>Eşofman Altı</div>
-
-        <div class="category">🧥 Dış Giyim</div>
-        <div>Kışlık Sweatshirt</div>
-        <div>Kapüşonlu Sweatshirt</div>
-
-        <div class="category">🩳 Yazlık Giyim</div>
-        <div>Kapri</div>
-        <div>Spor Takımı</div>
-
-        <div class="category">👩‍💼 Ofis & Özel</div>
-        <div>Etek</div>
-        <div>Elbise</div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const images = ["resim1.png", "resim2.png", "resim3.png", "resim4.png"];
-    let currentIndex = 0;
-
-    // Dil içerikleri
-    const translations = {
-      tr: {
-        languageToggle: "DİL ",
-        description: `<strong>TARZIN SENİN İMZAN.</strong><br><br>
-        YAVEXO, her yaşa ve her tarza hitap eden modern çizgileriyle; stilini ifade etmekten çekinmeyen, özgünlüğü seven herkes için burada.<br>
-        Günlük hayatın konforundan, ofis şıklığına kadar her ana uyum sağlayan özel üretim tasarımlar sunuyoruz.<br>
-        Her parçada işçilik, kalite ve özgünlük ilkelerini benimseyerek;<br><br>
-        👕 Kişiye özel baskı ve nakışlarla seni yansıtan detaylar,<br>
-        🧵 Özel tasarımlarla göz alıcı kombinler,<br>
-        👗 Hem rahat hem şık parçalarla her ortama uyum sağlayan stiller yaratıyoruz.<br><br>
-        YAVEXO, sadece giydiğin bir marka değil; seninle bütünleşen, tarzını anlatan bir deneyimdir.<br>
-        Fark yaratmak senin elinde. Hemen bizimle iletişime geç!`,
-        signatureButton: "✍️ İMZANI AT ✍️",
-        clothingSelection: "Giysi Seçimi",
-        optionsTitle: "Seçenekler ▼",
-        infoMessage: "💬 İstenilen ürünü WhatsApp veya Instagram üzerinden bildirerek sipariş edebilirsiniz."
-      },
-      en: {
-        languageToggle: "LANGUAGE ",
-        description: `<strong>YOUR STYLE IS YOUR SIGNATURE.</strong><br><br>
-        YAVEXO is here for everyone who loves originality and isn't afraid to express their style, with modern lines that appeal to all ages and styles.<br>
-        We offer custom designs that adapt to every moment, from the comfort of daily life to office elegance.<br>
-        By embracing craftsmanship, quality and originality in every piece;<br><br>
-        👕 Details that reflect you with personalized prints and embroidery,<br>
-        🧵 Eye-catching combinations with special designs,<br>
-        👗 We create styles that adapt to every environment with both comfortable and elegant pieces.<br><br>
-        YAVEXO is not just a brand you wear; it's an experience that integrates with you and tells your style.<br>
-        Making a difference is in your hands. Contact us now!`,
-        signatureButton: "✍️ SIGN YOUR STYLE ✍️",
-        clothingSelection: "Clothing Selection",
-        optionsTitle: "Options ▼",
-        infoMessage: "💬 You can order the desired product by informing us via WhatsApp or Instagram."
-      },
-      ru: {
-        languageToggle: "ЯЗЫК ",
-        description: `<strong>ВАШ СТИЛЬ - ВАША ПОДПИСЬ.</strong><br><br>
-        YAVEXO здесь для всех, кто любит оригинальность и не боится выражать свой стиль, с современными линиями, которые подходят для всех возрастов и стилей.<br>
-        Мы предлагаем индивидуальные дизайны, которые адаптируются к каждому моменту, от комфорта повседневной жизни до офисной элегантности.<br>
-        Придерживаясь мастерства, качества и оригинальности в каждом изделии;<br><br>
-        👕 Детали, которые отражают вас с индивидуальными принтами и вышивкой,<br>
-        🧵 Привлекательные комбинации с особыми дизайнами,<br>
-        👗 Мы создаем стили, которые адаптируются к любой среде с помощью удобных и элегантных изделий.<br><br>
-        YAVEXO - это не просто бренд, который вы носите; это опыт, который интегрируется с вами и рассказывает о вашем стиле.<br>
-        Сделать разницу в ваших руках. Свяжитесь с нами сейчас!`,
-        signatureButton: "✍️ ПОДПИШИТЕ СВОЙ СТИЛЬ ✍️",
-        clothingSelection: "Выбор одежды",
-        optionsTitle: "Опции ▼",
-        infoMessage: "💬 Вы можете заказать нужный товар, сообщив нам через WhatsApp или Instagram."
-      },
-      fr: {
-        languageToggle: "LANGUE ",
-        description: `<strong>VOTRE STYLE EST VOTRE SIGNATURE.</strong><br><br>
-        YAVEXO est là pour tous ceux qui aiment l'originalité et n'ont pas peur d'exprimer leur style, avec des lignes modernes qui plaisent à tous les âges et à tous les styles.<br>
-        Nous proposons des designs personnalisés qui s'adaptent à chaque moment, du confort de la vie quotidienne à l'élégance du bureau.<br>
-        En adoptant le savoir-faire, la qualité et l'originalité dans chaque pièce;<br><br>
-        👕 Des détails qui vous reflètent avec des impressions et broderies personnalisées,<br>
-        🧵 Des combinaisons attrayantes avec des designs spéciaux,<br>
-        👗 Nous créons des styles qui s'adaptent à tous les environnements avec des pièces à la fois confortables et élégantes.<br><br>
-        YAVEXO n'est pas seulement une marque que vous portez ; c'est une expérience qui s'intègre à vous et raconte votre style.<br>
-        Faire la différence est entre vos mains. Contactez-nous dès maintenant !`,
-        signatureButton: "✍️ SIGNEZ VOTRE STYLE ✍️",
-        clothingSelection: "Sélection de vêtements",
-        optionsTitle: "Options ▼",
-        infoMessage: "💬 Vous pouvez commander le produit souhaité en nous informant via WhatsApp ou Instagram."
-      }
-    };
-
-    function updateImage() {
-      document.querySelector(".main-image").src = images[currentIndex];
-      document.querySelector(".page-indicator").innerText = `${currentIndex + 1} / ${images.length}`;
-    }
-
-    function prevImage() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      updateImage();
-    }
-
-    function nextImage() {
-      currentIndex = (currentIndex + 1) % images.length;
-      updateImage();
-    }
-
-    function openSignaturePage() {
-      document.getElementById("signaturePage").style.display = "block";
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    }
-
-    function toggleOptions() {
-      const list = document.getElementById("optionsList");
-      list.style.display = list.style.display === "block" ? "none" : "block";
-    }
-
-    function showInfo() {
-      const currentLang = document.querySelector('.lang-btn.active').dataset.lang;
-      const message = document.createElement("div");
-      message.innerText = translations[currentLang].infoMessage;
-      message.style.position = "fixed";
-      message.style.top = "20px";
-      message.style.right = "20px";
-      message.style.background = "linear-gradient(90deg, #c5a349, #e4c370)";
-      message.style.color = "black";
-      message.style.padding = "14px 22px";
-      message.style.borderRadius = "8px";
-      message.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
-      message.style.zIndex = "9999";
-      message.style.fontSize = "16px";
-      message.style.transition = "opacity 0.5s";
-
-      document.body.appendChild(message);
-      setTimeout(() => {
-        message.style.opacity = "0";
-        setTimeout(() => message.remove(), 500);
-      }, 2500);
-    }
-
-    // Dil değiştirme işlevi
-    function changeLanguage(lang) {
-      // Tüm butonlardan aktif sınıfını kaldır
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      
-      // Tıklanan butona aktif sınıfını ekle
-      document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add('active');
-      
-      // İçeriği güncelle
-      document.getElementById('description').innerHTML = translations[lang].description;
-      document.getElementById('signatureButton').innerText = translations[lang].signatureButton;
-      document.getElementById('clothingSelection').innerText = translations[lang].clothingSelection;
-      document.getElementById('optionsTitle').innerText = translations[lang].optionsTitle;
-      document.getElementById('language-toggle').innerText = translations[lang].languageToggle;
-      
-      // Dil seçeneklerini kapat
-      document.getElementById('language-options').classList.remove('show');
-    }
-
-    // Dil butonlarına tıklama olaylarını ekle
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        changeLanguage(this.dataset.lang);
-      });
-    });
-
-    // Dil seçici toggle butonuna tıklama olayını ekle
-    document.getElementById('language-toggle').addEventListener('click', function() {
-      document.getElementById('language-options').classList.toggle('show');
-    });
-
-    // İmza butonuna tıklama olayını ekle
-    document.getElementById('signatureButton').addEventListener('click', openSignaturePage);
-
-    // Sayfa dışına tıklandığında dil seçeneklerini kapat
-    document.addEventListener('click', function(event) {
-      const languageSelector = document.querySelector('.language-selector');
-      if (!languageSelector.contains(event.target)) {
-        document.getElementById('language-options').classList.remove('show');
-      }
-    });
-  </script>
+    <script>
+        // Resim Galerisi Fonksiyonları
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.gallery-slide');
+        const slideCounter = document.querySelector('.slide-counter');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        
+        function showSlide(index) {
+            // Tüm slaytları gizle
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Sınır kontrolü
+            if (index >= slides.length) currentSlide = 0;
+            if (index < 0) currentSlide = slides.length - 1;
+            
+            // Aktif slaytı göster
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+        }
+        
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+        
+        function prevSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+        
+        // Buton olayları
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+        
+        // Otomatik slayt geçişi
+        setInterval(nextSlide, 5000);
+        
+        // Renk Seçimi
+        const colorOptions = document.querySelectorAll('.color-option');
+        const selectedColorElement = document.getElementById('selectedColor');
+        let selectedColor = "Siyah";
+        
+        colorOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Tüm seçeneklerden seçili class'ını kaldır
+                colorOptions.forEach(opt => opt.classList.remove('selected'));
+                // Tıklanan seçeneği seçili yap
+                this.classList.add('selected');
+                selectedColor = this.getAttribute('data-color');
+                selectedColorElement.textContent = selectedColor;
+                
+                // Detaylar panelini aç
+                const detailsPanel = document.getElementById('detailsPanel');
+                detailsPanel.classList.add('open');
+            });
+        });
+        
+        // Baskı Seçimi
+        const printOptions = document.querySelectorAll('.print-option');
+        const selectedPrintElement = document.getElementById('selectedPrint');
+        let selectedPrint = "Yüksek Çözünürlüklü";
+        
+        printOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Tüm seçeneklerden seçili class'ını kaldır
+                printOptions.forEach(opt => opt.classList.remove('selected'));
+                // Tıklanan seçeneği seçili yap
+                this.classList.add('selected');
+                selectedPrint = this.getAttribute('data-print');
+                selectedPrintElement.textContent = selectedPrint;
+                
+                // Detaylar panelini aç
+                const detailsPanel = document.getElementById('detailsPanel');
+                detailsPanel.classList.add('open');
+            });
+        });
+        
+        // Sipariş Tamamlama
+        const completeOrderBtn = document.getElementById('completeOrder');
+        
+        completeOrderBtn.addEventListener('click', function() {
+            // WhatsApp mesajını oluştur
+            const phoneNumber = "905342401859";
+            const message = `Merhaba, YAVEXO'dan sipariş vermek istiyorum.\nSeçilen Renk: ${selectedColor}\nSeçilen Baskı: ${selectedPrint}\n\nSipariş hakkında bilgi almak istiyorum.`;
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            // WhatsApp'ta aç
+            window.open(whatsappURL, '_blank');
+        });
+    </script>
 </body>
 </html>
